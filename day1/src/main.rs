@@ -4,15 +4,16 @@ use std::io::BufRead;
 // sort
 
 fn part1(v1: &mut Vec<i32>, v2: &mut Vec<i32>) {
-    let mut distance: i32 = 0;
     // sort v1 and v2
 
     v1.sort();
     v2.sort();
-    for i in 0..v1.len() {
-        let diff = v1[i] - v2[i];
-        distance += diff.abs();
-    }
+    assert_eq!(v1.len(), v2.len());
+    let distance: i32 = v1.iter().zip(v2.iter()).map(|x| (x.0 - x.1).abs()).sum();
+    // for i in 0..v1.len() {
+    //     let diff = v1[i] - v2[i];
+    //     distance += diff.abs();
+    // }
     println!("Distance: {}", distance);
 }
 
@@ -42,16 +43,46 @@ fn part2(v1: Vec<i32>, v2: Vec<i32>) {
     println!("Similarity Score: {}", similarty_score);
 }
 
+// pub enum Error {
+//     FileNotFound,
+//     FirstLineNotEmpty,
+// }
+
+// fn open_file() -> Result<File, Error> {
+//     let inp: Result<File, std::io::Error> = File::open("assets/input.txt");
+//     match inp {
+//         Ok(file) => {
+//             // if file line 0 is not usr/bin/env
+//             return Err(Error::FirstLineNotEmpty);
+//         }
+//         Err(e) => return Err(Error::FileNotFound),
+//     }
+// }
+
+// fn square_vector(v1: Vec<i32>) -> Vec<i32> {
+//     v1.iter().map(|x| x * x).collect()
+// }
+
+//
+// fn square_vector(v1: Vec<i32>) -> Vec<i32> {
+//     let mut v2: Vec<i32> = Vec::new();
+//     for i in 0..v1.len() {
+//         v2.push(v1[i] * v1[i]);
+//         // v1[i+1] += 1;
+//     }
+//     v2
+// }
+
 fn main() {
     // read from assets/sample.txt
     // let input = File::open("assets/sample.txt").unwrap();
-    let input = File::open("assets/input.txt").unwrap();
+    let input = File::open("assets/input.txt").expect("File not found");
     let reader = std::io::BufReader::new(input);
     // data in the following format
     // 1 2
     // 2 3
     // 689689 814929038
-
+    // collections.iter.map.collect general pattern
     let lines: Vec<String> = reader.lines().map(|l| l.unwrap()).collect();
     println!("Lines are: ");
     for line in &lines {
