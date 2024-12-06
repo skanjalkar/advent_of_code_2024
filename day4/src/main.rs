@@ -105,15 +105,18 @@ fn main() {
     let file = File::open("assets/input.txt").expect("File not Found!");
     let reader = std::io::BufReader::new(file);
 
-    let mut grid: Vec<Vec<char>> = Vec::new();
-    for line in reader.lines() {
-        let line = line.expect("Error in line");
-        let mut row: Vec<char> = Vec::new();
-        for c in line.chars() {
-            row.push(c);
-        }
-        grid.push(row);
-    }
+    let grid: Vec<Vec<char>> = reader
+        .lines()
+        .map(|line| line.expect("Invalid line").chars().collect())
+        .collect();
+    // for line in reader.lines() {
+    //     let line = line.expect("Error in line");
+    //     let mut row: Vec<char> = Vec::new();
+    //     for c in line.chars() {
+    //         row.push(c);
+    //     }
+    //     grid.push(row);
+    // }
     let answer = part1(&grid);
     println!("{}", answer);
 
